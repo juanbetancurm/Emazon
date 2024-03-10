@@ -1,10 +1,10 @@
 package com.pragma.arquetipobootcamp2024.configuration.exceptionhandler;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.ElementNotFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.NoDataFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.ProductAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.SupplierAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.SupplierNotFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ElementNotFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ProductAlreadyExistsException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierAlreadyExistsException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierNotFoundException;
 import com.pragma.arquetipobootcamp2024.configuration.Constants;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NegativeNotAllowedException;

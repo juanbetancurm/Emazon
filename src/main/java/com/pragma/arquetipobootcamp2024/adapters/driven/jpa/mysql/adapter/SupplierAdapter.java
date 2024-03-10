@@ -1,10 +1,10 @@
-package com.pragma.arquetipobootcamp2024.adapters.driven.adapter;
+package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.entity.SupplierEntity;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.NoDataFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.SupplierAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.mapper.ISupplierEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.repository.ISupplierRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.SupplierEntity;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierAlreadyExistsException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ISupplierEntityMapper;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ISupplierRepository;
 import com.pragma.arquetipobootcamp2024.domain.model.Supplier;
 import com.pragma.arquetipobootcamp2024.domain.spi.ISupplierPersistencePort;
 import lombok.RequiredArgsConstructor;

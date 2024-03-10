@@ -1,6 +1,6 @@
-package com.pragma.arquetipobootcamp2024.adapters.driven.mapper;
+package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.entity.SupplierEntity;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.SupplierEntity;
 import com.pragma.arquetipobootcamp2024.domain.model.Supplier;
 import org.mapstruct.Mapper;
 

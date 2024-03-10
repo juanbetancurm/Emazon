@@ -1,15 +1,15 @@
-package com.pragma.arquetipobootcamp2024.adapters.driven.adapter;
+package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.entity.ProductEntity;
-import com.pragma.arquetipobootcamp2024.adapters.driven.entity.SupplierEntity;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.ElementNotFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.NoDataFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.ProductAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.exception.SupplierNotFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.mapper.IProductEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.mapper.ISupplierEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.repository.IProductRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driven.repository.ISupplierRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.ProductEntity;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.SupplierEntity;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ElementNotFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ProductAlreadyExistsException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierNotFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IProductEntityMapper;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ISupplierEntityMapper;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IProductRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ISupplierRepository;
 import com.pragma.arquetipobootcamp2024.configuration.Constants;
 import com.pragma.arquetipobootcamp2024.domain.model.Product;
 import com.pragma.arquetipobootcamp2024.domain.spi.IProductPersistencePort;

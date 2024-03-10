@@ -1,11 +1,11 @@
 package com.pragma.arquetipobootcamp2024.configuration;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.adapter.ProductAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.adapter.SupplierAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.mapper.IProductEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.mapper.ISupplierEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.repository.IProductRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driven.repository.ISupplierRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.ProductAdapter;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.SupplierAdapter;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IProductEntityMapper;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ISupplierEntityMapper;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IProductRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ISupplierRepository;
 import com.pragma.arquetipobootcamp2024.domain.api.IProductServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.ISupplierServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.usecase.ProductUseCase;
