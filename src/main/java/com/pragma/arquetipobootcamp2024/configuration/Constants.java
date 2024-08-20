@@ -5,6 +5,7 @@ public class Constants {
         throw new IllegalStateException("utility class");
     }
 
+    public static final String CATEGORY_NAME_ALREADY_EXIST = "Category with this name already exists";
     public static final String NO_DATA_FOUND_EXCEPTION_MESSAGE = "No data was found in the database";
     public static final String ELEMENT_NOT_FOUND_EXCEPTION_MESSAGE = "The element indicated does not exist";
     public static final String SUPPLIER_ALREADY_EXISTS_EXCEPTION_MESSAGE = "The supplier you want to create already exists";
