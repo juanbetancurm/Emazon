@@ -46,7 +46,7 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     }
     @Override
     public void deleteCategory(Long id) {
-
+        categoryRepository.deleteById(id);
     }
 
 }

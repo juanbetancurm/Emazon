@@ -68,5 +68,10 @@ public class CategoryRestController {
         CategoryResponse categoryResponse = categoryResponseMapper.toResponse(updatedCategory);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
+    @PostMapping("/categorydel/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
+        categoryServicePort.deleteCategory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

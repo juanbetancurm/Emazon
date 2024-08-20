@@ -38,14 +38,8 @@ public class CategoryUseCase implements ICategoryServicePort {
     public CategoryModel updateCategory(CategoryModel categoryModel){
         return categoryPersistencePort.updateCategory(categoryModel);
     }
-    /**
-
-
     @Override
     public void deleteCategory(Long id){
-
         categoryPersistencePort.deleteCategory(id);
     }
-    **/
-
 }

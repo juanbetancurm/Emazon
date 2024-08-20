@@ -10,7 +10,6 @@ public interface ICategoryServicePort {
     List<CategoryModel> getAllCategories();
     CategoryModel getCategoryById(Long id);
     CategoryModel updateCategory(CategoryModel categoryModel);
-    /**
     void deleteCategory(Long id);
-     **/
+
 }
