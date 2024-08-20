@@ -53,5 +53,15 @@ public class CategoryRestController {
             CategoryResponse categoryResponse = categoryResponseMapper.toResponse(createdCategory);
             return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
     }
-
+    @GetMapping("/categoryid/{id}")
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
+        CategoryModel categoryModel = categoryServicePort.getCategoryById(id);
+        CategoryResponse categoryResponse = categoryResponseMapper.toResponse(categoryModel);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
+    }
+/**
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Validated @RequestBody AddCategoryRequest updateCategoryRequest){
+        return null;
+    }
+**/
 }

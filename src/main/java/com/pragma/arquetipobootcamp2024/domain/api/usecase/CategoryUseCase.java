@@ -31,16 +31,16 @@ public class CategoryUseCase implements ICategoryServicePort {
                 .collect(Collectors.toList());
         //return categoryPersistencePort.getAllCategories();
     }
-    /**
     @Override
     public CategoryModel getCategoryById(Long id){
-
         return categoryPersistencePort.getCategoryById(id);
     }
-    @Override
-    public CategoryModel updateCategory (CategoryModel categoryModel){
+    public CategoryModel updateCategory(CategoryModel categoryModel){
         return categoryPersistencePort.updateCategory(categoryModel);
     }
+    /**
+
+
     @Override
     public void deleteCategory(Long id){
 

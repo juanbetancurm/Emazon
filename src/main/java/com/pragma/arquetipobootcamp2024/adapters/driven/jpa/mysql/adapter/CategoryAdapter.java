@@ -27,11 +27,6 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     }
 
     @Override
-    public CategoryModel getCategoryById(Long id) {
-        return null;
-    }
-
-    @Override
     public List<CategoryEntity> getAllCategories() {
 
         return categoryRepository.findAll();
@@ -39,9 +34,16 @@ public class CategoryAdapter implements ICategoryPersistencePort {
 
     @Override
     public CategoryModel updateCategory(CategoryModel categoryModel) {
-        return null;
+        CategoryEntity categoryEntity = categoryEntityMapper.toEntity(categoryModel);
+        categoryEntity = categoryRepository.save(categoryEntity);
+        return categoryEntityMapper.toModel(categoryEntity);
     }
-
+    @Override
+    public CategoryModel getCategoryById(Long id) {
+        return categoryRepository.findById(id)
+                .map(categoryEntityMapper::toModel)
+                .orElseThrow(()-> new  RuntimeException("Category not found"));
+    }
     @Override
     public void deleteCategory(Long id) {
 
