@@ -59,9 +59,14 @@ public class CategoryRestController {
         CategoryResponse categoryResponse = categoryResponseMapper.toResponse(categoryModel);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
-/**
+    @PostMapping("/categorymodi/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Validated @RequestBody AddCategoryRequest updateCategoryRequest){
-        return null;
+        CategoryModel existingCategory = categoryServicePort.getCategoryById(id);
+        existingCategory.setName(updateCategoryRequest.getName());
+        existingCategory.setDescription(updateCategoryRequest.getDescription());
+        CategoryModel updatedCategory = categoryServicePort.updateCategory(existingCategory);
+        CategoryResponse categoryResponse = categoryResponseMapper.toResponse(updatedCategory);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
-**/
+
 }
