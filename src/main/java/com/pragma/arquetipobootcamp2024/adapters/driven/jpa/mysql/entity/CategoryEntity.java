@@ -1,6 +1,8 @@
 package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +10,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "categories", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class CategoryEntity {
 
