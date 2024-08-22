@@ -1,5 +1,6 @@
 package com.pragma.arquetipobootcamp2024.adapters.driving.http.controller;
 
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistException;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddCategoryRequest;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.CategoryResponse;
@@ -48,11 +49,16 @@ public class CategoryRestController {
     }
     @PostMapping("/categorynew")
     public ResponseEntity<CategoryResponse> createCategory(@Validated @RequestBody AddCategoryRequest addCategoryRequest){
+        try {
             CategoryModel categoryModel = categoryRequestMapper.addRequestToCategoryModel(addCategoryRequest);
             CategoryModel createdCategory = categoryServicePort.createCategory(categoryModel);
             CategoryResponse categoryResponse = categoryResponseMapper.toResponse(createdCategory);
             return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
+        } catch (CategoryAlreadyExistException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
+
     @GetMapping("/categoryid/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
         CategoryModel categoryModel = categoryServicePort.getCategoryById(id);

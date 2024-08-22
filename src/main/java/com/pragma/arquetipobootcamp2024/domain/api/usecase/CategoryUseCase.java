@@ -3,10 +3,12 @@ package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
+import com.pragma.arquetipobootcamp2024.domain.exception.CategoryAlreadyExistExceptionDD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CategoryUseCase implements ICategoryServicePort {
@@ -19,7 +21,10 @@ public class CategoryUseCase implements ICategoryServicePort {
     }
     @Override
     public CategoryModel createCategory (CategoryModel categoryModel){
-        return categoryPersistencePort.createCategory(categoryModel);
+        Optional<CategoryModel> existingCategory = categoryPersistencePort.getCategoryByName(categoryModel.getName());
+        if (existingCategory.isPresent()) {
+            throw new CategoryAlreadyExistExceptionDD(categoryModel.getName());
+        }return categoryPersistencePort.createCategory(categoryModel);
     }
 
     @Override

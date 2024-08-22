@@ -7,6 +7,7 @@ public final class DomainConstants {
 
     public enum Field {
         NAME,
+        DESCRIPTION,
         PRICE,
         QUANTITY,
         CONTACTNUMBER

@@ -9,6 +9,7 @@ import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryAdapter implements ICategoryPersistencePort {
@@ -22,10 +23,13 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     @Override
     public CategoryModel createCategory(CategoryModel categoryModel){
         CategoryEntity categoryEntity= categoryEntityMapper.toEntity(categoryModel);
-        categoryEntity = categoryRepository.save(categoryEntity);
-        return categoryEntityMapper.toModel(categoryEntity);
+        CategoryEntity savedEntity = categoryRepository.save(categoryEntity);
+        return categoryEntityMapper.toModel(savedEntity);
     }
-
+    @Override
+    public Optional<CategoryModel> getCategoryByName(String name) {
+        return categoryRepository.findByName(name).map(categoryEntityMapper::toModel);
+    }
     @Override
     public List<CategoryEntity> getAllCategories() {
 

@@ -4,9 +4,11 @@ import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.Categor
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICategoryPersistencePort {
     CategoryModel createCategory (CategoryModel categoryModel);
+    Optional<CategoryModel> getCategoryByName(String name);
     CategoryModel getCategoryById(Long id);
     List<CategoryEntity> getAllCategories();
     CategoryModel updateCategory(CategoryModel categoryModel);
