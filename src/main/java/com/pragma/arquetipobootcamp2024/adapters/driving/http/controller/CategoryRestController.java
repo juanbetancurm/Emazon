@@ -1,7 +1,7 @@
 package com.pragma.arquetipobootcamp2024.adapters.driving.http.controller;
 
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
+
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddCategoryRequest;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.CategoryResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryRequestMapper;
@@ -22,16 +22,16 @@ import java.util.List;
 public class CategoryRestController {
     private static final Logger logger = LoggerFactory.getLogger(CategoryRestController.class);
     private final ICategoryServicePort categoryServicePort;
-    private final ICategoryEntityMapper categoryEntityMapper;
+
     private final ICategoryResponseMapper categoryResponseMapper;
     private final ICategoryRequestMapper categoryRequestMapper;
 
     public CategoryRestController(ICategoryServicePort categoryServicePort,
-                                  ICategoryEntityMapper categoryEntityMapper,
+
                                   ICategoryResponseMapper categoryResponseMapper,
                                   ICategoryRequestMapper categoryRequestMapper){
         this.categoryServicePort = categoryServicePort;
-        this.categoryEntityMapper= categoryEntityMapper;
+
         this.categoryResponseMapper = categoryResponseMapper;
         this.categoryRequestMapper = categoryRequestMapper;
     }

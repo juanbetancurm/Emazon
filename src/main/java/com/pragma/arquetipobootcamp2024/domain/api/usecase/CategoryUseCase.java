@@ -9,7 +9,7 @@ import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 public class CategoryUseCase implements ICategoryServicePort {
     private final ICategoryPersistencePort categoryPersistencePort;
@@ -30,11 +30,10 @@ public class CategoryUseCase implements ICategoryServicePort {
     @Override
     public List<CategoryModel> getAllCategories(){
         List<CategoryEntity> categories = categoryPersistencePort.getAllCategories();
-        System.out.println("Fetched categories: " + categories);
+
         return categories.stream()
                 .map(categoryEntityMapper::toModel)
-                .collect(Collectors.toList());
-        //return categoryPersistencePort.getAllCategories();
+                .toList();
     }
     @Override
     public CategoryModel getCategoryById(Long id){

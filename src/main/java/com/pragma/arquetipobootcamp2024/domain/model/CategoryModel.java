@@ -1,11 +1,8 @@
 package com.pragma.arquetipobootcamp2024.domain.model;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.util.DomainConstants;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 @Data
 public class CategoryModel {
