@@ -1,10 +1,8 @@
 package com.pragma.arquetipobootcamp2024.domain.model;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.util.DomainConstants;
-import lombok.Data;
 
 
-@Data
 public class CategoryModel {
 
     private Long id;
@@ -28,5 +26,30 @@ public class CategoryModel {
         this.name = name.trim();
         this.description = description.trim();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
 }
