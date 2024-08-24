@@ -27,6 +27,10 @@ public class CategoryUseCase implements ICategoryServicePort {
         }return categoryPersistencePort.createCategory(categoryModel);
     }
 
+    public List<CategoryModel> getCategoriesWithPagination(int page, int size, String sortBy, boolean asc){
+        return categoryPersistencePort.getCategoriesWithPagination(page, size, sortBy, asc);
+    }
+
     @Override
     public List<CategoryModel> getAllCategories(){
         List<CategoryEntity> categories = categoryPersistencePort.getAllCategories();
