@@ -1,20 +1,20 @@
 package com.pragma.arquetipobootcamp2024.configuration.exceptionhandler;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ElementNotFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.ProductAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierAlreadyExistsException;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.SupplierNotFoundException;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.*;
 import com.pragma.arquetipobootcamp2024.configuration.Constants;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NegativeNotAllowedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -56,5 +56,28 @@ public class ControllerAdvisor {
     public ResponseEntity<ExceptionResponse> handleSupplierNotFoundException() {
         return ResponseEntity.badRequest().body(new ExceptionResponse(
                 Constants.SUPPLIER_NOT_FOUND_EXCEPTION_MESSAGE, HttpStatus.CONFLICT.toString(), LocalDateTime.now()));
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(CategoryAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleCategoryAlreadyExistException(CategoryAlreadyExistException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", "An unexpected error occurred: " + ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

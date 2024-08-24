@@ -9,6 +9,10 @@ import java.util.Optional;
 public interface ICategoryPersistencePort {
     CategoryModel createCategory (CategoryModel categoryModel);
     Optional<CategoryModel> getCategoryByName(String name);
+
+    List<CategoryModel> getCategoriesWithPagination(int page, int size, String sortby, boolean asc);
+
+
     CategoryModel getCategoryById(Long id);
     List<CategoryEntity> getAllCategories();
     CategoryModel updateCategory(CategoryModel categoryModel);

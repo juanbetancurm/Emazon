@@ -6,6 +6,9 @@ import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ICa
 
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +32,15 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     @Override
     public Optional<CategoryModel> getCategoryByName(String name) {
         return categoryRepository.findByName(name).map(categoryEntityMapper::toModel);
+    }
+    @Override
+    public List<CategoryModel> getCategoriesWithPagination(int page, int size, String sortby, boolean asc){
+        Pageable pageable = PageRequest.of(page, size, asc ? Sort.by(sortby).ascending() : Sort.by(sortby).descending());
+        return categoryRepository.findAll(pageable)
+                .stream()
+                .map(categoryEntityMapper::toModel)
+                .toList();
+
     }
     @Override
     public List<CategoryEntity> getAllCategories() {
