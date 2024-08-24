@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Configuration
 @RequiredArgsConstructor
@@ -85,7 +85,7 @@ public class BeanConfiguration {
 
                 return categoryModels.stream()
                         .map(this::toResponse)
-                        .collect(Collectors.toList());
+                        .toList();
             }
         };
     }

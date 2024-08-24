@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-public class CategoryAdapterTest {
+class CategoryAdapterTest {
     @Mock
     private ICategoryRepository categoryRepository;
 
