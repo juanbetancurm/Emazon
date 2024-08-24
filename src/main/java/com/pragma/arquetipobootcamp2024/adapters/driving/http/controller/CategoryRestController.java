@@ -1,12 +1,13 @@
 package com.pragma.arquetipobootcamp2024.adapters.driving.http.controller;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistException;
+
 
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddCategoryRequest;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.CategoryResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryRequestMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryResponseMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
+import com.pragma.arquetipobootcamp2024.domain.exception.CategoryAlreadyExistExceptionDD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -42,17 +43,7 @@ public class CategoryRestController {
     }
 
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<CategoryResponse>> getAllCategories(){
-        try {
-            List<CategoryModel> categoryModels = categoryServicePort.getAllCategories();
-            List<CategoryResponse> categoryResponses = categoryResponseMapper.toCategoryResponseList(categoryModels);
-            return ResponseEntity.ok(categoryResponses);
-        }catch (Exception e){
-            logger.error("Error retrieving categories", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
 
 
 
@@ -75,7 +66,7 @@ public class CategoryRestController {
                                     examples = @ExampleObject(value = "{ \"id\": 1, \"name\": \"Health\", \"description\": \"Products for human health\" }")
                             )
                     ),
-                    @ApiResponse(responseCode = "400", description = "Bad request, invalid input",
+                    @ApiResponse(responseCode = "400", description = "Validation errors occurred",
                             content = @Content(
                                     schema = @Schema(implementation = CategoryResponse.class),
                                     examples = @ExampleObject(value = "{ \"id\": 1, \"   \": \"     \", \"description\": \"Any description.\" }")
@@ -96,11 +87,35 @@ public class CategoryRestController {
             CategoryModel createdCategory = categoryServicePort.createCategory(categoryModel);
             CategoryResponse categoryResponse = categoryResponseMapper.toResponse(createdCategory);
             return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
-        } catch (CategoryAlreadyExistException e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }  catch (CategoryAlreadyExistExceptionDD e) {
+            logger.error("Category already exists: {}", e.getMessage());
+            return null;
         }
     }
 
+    @GetMapping("/categoriespage")
+    public ResponseEntity<List<CategoryResponse>> getCategoriesWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "true") boolean asc){
+        List<CategoryModel> categoryModels = categoryServicePort.getCategoriesWithPagination(page, size, sortBy, asc);
+        List<CategoryResponse>categoryResponses = categoryResponseMapper.toCategoryResponseList(categoryModels);
+        return ResponseEntity.ok(categoryResponses);
+    }
+
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryResponse>> getAllCategories(){
+        try {
+            List<CategoryModel> categoryModels = categoryServicePort.getAllCategories();
+            List<CategoryResponse> categoryResponses = categoryResponseMapper.toCategoryResponseList(categoryModels);
+            return ResponseEntity.ok(categoryResponses);
+        }catch (Exception e){
+            logger.error("Error retrieving categories", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/categoryid/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
         CategoryModel categoryModel = categoryServicePort.getCategoryById(id);
