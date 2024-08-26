@@ -7,7 +7,7 @@ import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.Categ
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryRequestMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryResponseMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
-import com.pragma.arquetipobootcamp2024.domain.exception.CategoryAlreadyExistExceptionDD;
+
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -81,16 +81,11 @@ public class CategoryRestController {
             }
     )
 
-    public ResponseEntity<CategoryResponse> createCategory(@Validated @RequestBody AddCategoryRequest addCategoryRequest){
-        try {
-            CategoryModel categoryModel = categoryRequestMapper.addRequestToCategoryModel(addCategoryRequest);
-            CategoryModel createdCategory = categoryServicePort.createCategory(categoryModel);
-            CategoryResponse categoryResponse = categoryResponseMapper.toResponse(createdCategory);
-            return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
-        }  catch (CategoryAlreadyExistExceptionDD e) {
-            logger.error("Category already exists: {}", e.getMessage());
-            return null;
-        }
+    public ResponseEntity<CategoryResponse> createCategory(@Validated @RequestBody AddCategoryRequest addCategoryRequest) {
+        CategoryModel categoryModel = categoryRequestMapper.addRequestToCategoryModel(addCategoryRequest);
+        CategoryModel createdCategory = categoryServicePort.createCategory(categoryModel);
+        CategoryResponse categoryResponse = categoryResponseMapper.toResponse(createdCategory);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/categoriespage")
