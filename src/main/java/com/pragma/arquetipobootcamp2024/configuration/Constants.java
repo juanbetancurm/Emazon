@@ -13,5 +13,7 @@ public class Constants {
     public static final String EMPTY_FIELD_EXCEPTION_MESSAGE = "Field %s can not be empty";
     public static final String NEGATIVE_NOT_ALLOWED_EXCEPTION_MESSAGE = "Field %s can not receive negative values";
     public static final String SUPPLIER_NOT_FOUND_EXCEPTION_MESSAGE = "The supplier indicated for this product does not exist";
+
+    public static final String BLANK_FIELD_ERROR = "The field cannot be blank.";
     public static final Long SOLD_OUT_VALUE = 0L;
 }

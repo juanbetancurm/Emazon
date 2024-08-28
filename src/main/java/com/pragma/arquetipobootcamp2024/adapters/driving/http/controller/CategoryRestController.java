@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +32,7 @@ public class CategoryRestController {
 
     private final ICategoryResponseMapper categoryResponseMapper;
     private final ICategoryRequestMapper categoryRequestMapper;
-
+    @Autowired
     public CategoryRestController(ICategoryServicePort categoryServicePort,
 
                                   ICategoryResponseMapper categoryResponseMapper,
@@ -41,9 +42,6 @@ public class CategoryRestController {
         this.categoryResponseMapper = categoryResponseMapper;
         this.categoryRequestMapper = categoryRequestMapper;
     }
-
-
-
 
 
 
@@ -89,7 +87,7 @@ public class CategoryRestController {
     }
 
     @GetMapping("/categoriespage")
-    public ResponseEntity<List<CategoryResponse>> getCategoriesWithPagination(
+    public ResponseEntity<List<CategoryResponse>> getCategoriesWithPagination(@Validated
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy,
@@ -111,12 +109,15 @@ public class CategoryRestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/categoryid/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
         CategoryModel categoryModel = categoryServicePort.getCategoryById(id);
         CategoryResponse categoryResponse = categoryResponseMapper.toResponse(categoryModel);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
+
+
     @PostMapping("/categorymodi/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Validated @RequestBody AddCategoryRequest updateCategoryRequest){
         CategoryModel existingCategory = categoryServicePort.getCategoryById(id);

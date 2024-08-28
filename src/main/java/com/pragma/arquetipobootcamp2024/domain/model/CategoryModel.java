@@ -1,4 +1,5 @@
 package com.pragma.arquetipobootcamp2024.domain.model;
+import com.pragma.arquetipobootcamp2024.domain.exception.CategoryBlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.util.DomainConstants;
 
@@ -11,7 +12,7 @@ public class CategoryModel {
 
     public CategoryModel(Long id, String name, String description) {
         if (name == null || name.trim().isEmpty()) {
-            throw new EmptyFieldException(DomainConstants.Field.NAME.toString());
+            throw new CategoryBlankFieldException(DomainConstants.Field.NAME.toString());
         }
         if (name.trim().length() > 50) {
             throw new IllegalArgumentException("Name cannot exceed 50 characters");

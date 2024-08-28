@@ -2,8 +2,7 @@ package com.pragma.arquetipobootcamp2024.configuration.exceptionhandler;
 
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.*;
 import com.pragma.arquetipobootcamp2024.configuration.Constants;
-import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
-import com.pragma.arquetipobootcamp2024.domain.exception.NegativeNotAllowedException;
+import com.pragma.arquetipobootcamp2024.domain.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +13,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.pragma.arquetipobootcamp2024.configuration.Constants.*;
 
 @ControllerAdvice
 @RequiredArgsConstructor
 public class ControllerAdvisor {
     @ExceptionHandler(EmptyFieldException.class)
-    public ResponseEntity<ExceptionResponse> handleEmptyFieldException(EmptyFieldException exception) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(
-                String.format(Constants.EMPTY_FIELD_EXCEPTION_MESSAGE, exception.getMessage()),
-                HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+    public ResponseEntity<Map<String, String>> handleEmptyFieldException(EmptyFieldException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put(BLANK_FIELD_ERROR, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(NegativeNotAllowedException.class)
     public ResponseEntity<ExceptionResponse> handleNegativeNotAllowedException(NegativeNotAllowedException exception) {
@@ -67,17 +69,30 @@ public class ControllerAdvisor {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(CategoryAlreadyExistException.class)
-    public ResponseEntity<Map<String, String>> handleCategoryAlreadyExistException(CategoryAlreadyExistException ex) {
+    @ExceptionHandler(CategoryAlreadyExistExceptionDD.class)
+    public ResponseEntity<Map<String, String>> handleCategoryAlreadyExistException(CategoryAlreadyExistExceptionDD ex) {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", ex.getMessage());
+        errorResponse.put(CATEGORY_NAME_ALREADY_EXIST, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
+    @ExceptionHandler(CategoryBlankFieldException.class)
+    public ResponseEntity<Map<String, String>> handleCategoryInvalidNameException(CategoryBlankFieldException ex) {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "An unexpected error occurred: " + ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        errorResponse.put(EMPTY_FIELD_EXCEPTION_MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+    @ExceptionHandler(InvalidPageParameterException.class)
+    public ResponseEntity<Object> handleInvalidPageParameterException(InvalidPageParameterException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 }
