@@ -78,7 +78,7 @@ public class BrandRestController {
         return new ResponseEntity<>(brandResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/brandspages")
+    @GetMapping("/brandspage")
     public ResponseEntity<List<BrandResponse>> getCategoriesWithPagination(@Validated
                                                                               @RequestParam(defaultValue = "0") int page,
                                                                               @RequestParam(defaultValue = "10") int size,
