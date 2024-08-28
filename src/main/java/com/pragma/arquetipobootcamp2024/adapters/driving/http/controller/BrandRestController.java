@@ -17,10 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/brand")
@@ -77,5 +76,16 @@ public class BrandRestController {
         BrandModel createdBrand = brandServicePort.createBrand(brandModel);
         BrandResponse brandResponse = brandResponseMapper.toResponse(createdBrand);
         return new ResponseEntity<>(brandResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/brandspages")
+    public ResponseEntity<List<BrandResponse>> getCategoriesWithPagination(@Validated
+                                                                              @RequestParam(defaultValue = "0") int page,
+                                                                              @RequestParam(defaultValue = "10") int size,
+                                                                              @RequestParam(defaultValue = "name") String sortBy,
+                                                                              @RequestParam(defaultValue = "true") boolean asc){
+        List<BrandModel> brandModels = brandServicePort.getBrandsWithPagination(page, size, sortBy, asc);
+        List<BrandResponse> brandResponses = brandResponseMapper.toBrandResponseList(brandModels);
+        return ResponseEntity.ok(brandResponses);
     }
 }

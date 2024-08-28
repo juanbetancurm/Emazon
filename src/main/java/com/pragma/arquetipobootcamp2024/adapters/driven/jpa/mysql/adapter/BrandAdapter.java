@@ -5,7 +5,11 @@ import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IBrandE
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IBrandRepository;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IBrandPersistencePort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BrandAdapter implements IBrandPersistencePort {
@@ -27,5 +31,15 @@ public class BrandAdapter implements IBrandPersistencePort {
     @Override
     public Optional<BrandModel> getBrandByName(String name) {
         return brandRepository.findByName(name).map(brandEntityMapper::toModel);
+    }
+
+    @Override
+    public List<BrandModel> getBrandsWithPagination(int page, int size, String sortby, boolean asc){
+        Pageable pageable = PageRequest.of(page, size, asc ? Sort.by(sortby).ascending() : Sort.by(sortby).descending());
+        return brandRepository.findAll(pageable)
+                .stream()
+                .map(brandEntityMapper::toModel)
+                .toList();
+
     }
 }

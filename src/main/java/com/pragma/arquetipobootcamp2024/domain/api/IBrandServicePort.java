@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IBrandServicePort {
     BrandModel createBrand(BrandModel brandModel);
-    //List<BrandModel> getCategoriesWithPagination(int page, int size, String sortBy, boolean asc);
+
+    List<BrandModel> getBrandsWithPagination(int page, int size, String sortBy, boolean asc);
 
 }

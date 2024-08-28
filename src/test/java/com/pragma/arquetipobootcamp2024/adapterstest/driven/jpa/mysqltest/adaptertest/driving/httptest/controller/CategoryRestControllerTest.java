@@ -88,7 +88,7 @@ class CategoryRestControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$['Category with this name already exists']").value("Category with name 'Health' already exists"));
+                .andExpect(jsonPath("$['This name already exists']").value("Name 'Health' already exists"));
 
     }
 

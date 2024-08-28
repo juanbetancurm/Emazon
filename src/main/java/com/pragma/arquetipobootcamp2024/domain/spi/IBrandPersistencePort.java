@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface IBrandPersistencePort {
     BrandModel createBrand (BrandModel brandModel);
     Optional<BrandModel> getBrandByName(String name);
-
-    //List<BrandModel> getCategoriesWithPagination(int page, int size, String sortby, boolean asc);
+    List<BrandModel> getBrandsWithPagination(int page, int size, String sortby, boolean asc);
 
 }
