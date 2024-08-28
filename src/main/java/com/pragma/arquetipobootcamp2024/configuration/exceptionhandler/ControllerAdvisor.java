@@ -69,14 +69,14 @@ public class ControllerAdvisor {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(CategoryAlreadyExistExceptionDD.class)
-    public ResponseEntity<Map<String, String>> handleCategoryAlreadyExistException(CategoryAlreadyExistExceptionDD ex) {
+    @ExceptionHandler(NameAlreadyExistsExceptionD.class)
+    public ResponseEntity<Map<String, String>> handleNameAlreadyExistException(NameAlreadyExistsExceptionD ex) {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put(CATEGORY_NAME_ALREADY_EXIST, ex.getMessage());
+        errorResponse.put(NAME_ALREADY_EXIST, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
-    @ExceptionHandler(CategoryBlankFieldException.class)
-    public ResponseEntity<Map<String, String>> handleCategoryInvalidNameException(CategoryBlankFieldException ex) {
+    @ExceptionHandler(BlankFieldException.class)
+    public ResponseEntity<Map<String, String>> handleCategoryInvalidNameException(BlankFieldException ex) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put(EMPTY_FIELD_EXCEPTION_MESSAGE, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

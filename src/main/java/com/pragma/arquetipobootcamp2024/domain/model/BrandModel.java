@@ -1,16 +1,16 @@
 package com.pragma.arquetipobootcamp2024.domain.model;
+
+
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.EmptyFieldException;
 import com.pragma.arquetipobootcamp2024.domain.util.DomainConstants;
 
-
-public class CategoryModel {
-
+public class BrandModel {
     private Long id;
     private String name;
     private String description;
 
-    public CategoryModel(Long id, String name, String description) {
+    public BrandModel(Long id, String name, String description) {
         if (name == null || name.trim().isEmpty()) {
             throw new BlankFieldException(DomainConstants.Field.NAME.toString());
         }
@@ -51,6 +51,4 @@ public class CategoryModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 }

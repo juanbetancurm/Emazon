@@ -1,7 +1,7 @@
 package com.pragma.arquetipobootcamp2024.domaintest.apitest.usecasetest;
 
 import com.pragma.arquetipobootcamp2024.domain.api.usecase.CategoryUseCase;
-import com.pragma.arquetipobootcamp2024.domain.exception.CategoryAlreadyExistExceptionDD;
+import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ class CategoryUseCaseTest {
         CategoryModel newCategory = new CategoryModel(null, existingCategoryName, "New Category Description");
 
         // When & Then
-        assertThrows(CategoryAlreadyExistExceptionDD.class, () -> categoryUseCase.createCategory(newCategory));
+        assertThrows(NameAlreadyExistsExceptionD.class, () -> categoryUseCase.createCategory(newCategory));
         verify(categoryPersistencePort, never()).createCategory(newCategory);
     }
 

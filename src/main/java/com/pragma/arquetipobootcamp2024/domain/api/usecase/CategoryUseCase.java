@@ -3,9 +3,9 @@ package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
-import com.pragma.arquetipobootcamp2024.domain.exception.CategoryAlreadyExistExceptionDD;
-import com.pragma.arquetipobootcamp2024.domain.exception.CategoryBlankFieldException;
+import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
+import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
 
@@ -26,10 +26,10 @@ public class CategoryUseCase implements ICategoryServicePort {
         Optional<CategoryModel> existingCategory = categoryPersistencePort.getCategoryByName(categoryModel.getName());
         if (categoryModel.getName() == null || categoryModel.getName().trim().isEmpty() ||
                 categoryModel.getDescription() == null || categoryModel.getDescription().trim().isEmpty()) {
-            throw new CategoryBlankFieldException("Field cannot be blank");
+            throw new BlankFieldException("Field cannot be blank");
         }
         if (existingCategory.isPresent()) {
-            throw new CategoryAlreadyExistExceptionDD(categoryModel.getName());
+            throw new NameAlreadyExistsExceptionD(categoryModel.getName());
         }
 
         return categoryPersistencePort.createCategory(categoryModel);
