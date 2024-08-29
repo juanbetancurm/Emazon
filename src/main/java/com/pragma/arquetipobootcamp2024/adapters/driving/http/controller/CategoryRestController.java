@@ -96,41 +96,4 @@ public class CategoryRestController {
         List<CategoryResponse>categoryResponses = categoryResponseMapper.toCategoryResponseList(categoryModels);
         return ResponseEntity.ok(categoryResponses);
     }
-
-
-    @GetMapping("/categories")
-    public ResponseEntity<List<CategoryResponse>> getAllCategories(){
-        try {
-            List<CategoryModel> categoryModels = categoryServicePort.getAllCategories();
-            List<CategoryResponse> categoryResponses = categoryResponseMapper.toCategoryResponseList(categoryModels);
-            return ResponseEntity.ok(categoryResponses);
-        }catch (Exception e){
-            logger.error("Error retrieving categories", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/categoryid/{id}")
-    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
-        CategoryModel categoryModel = categoryServicePort.getCategoryById(id);
-        CategoryResponse categoryResponse = categoryResponseMapper.toResponse(categoryModel);
-        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
-    }
-
-
-    @PostMapping("/categorymodi/{id}")
-    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @Validated @RequestBody AddCategoryRequest updateCategoryRequest){
-        CategoryModel existingCategory = categoryServicePort.getCategoryById(id);
-        existingCategory.setName(updateCategoryRequest.getName());
-        existingCategory.setDescription(updateCategoryRequest.getDescription());
-        CategoryModel updatedCategory = categoryServicePort.updateCategory(existingCategory);
-        CategoryResponse categoryResponse = categoryResponseMapper.toResponse(updatedCategory);
-        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
-    }
-    @PostMapping("/categorydel/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
-        categoryServicePort.deleteCategory(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 }

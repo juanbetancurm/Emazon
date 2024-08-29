@@ -46,7 +46,7 @@ public class BrandRestController {
                     description = "Brand data to be created",
                     content = @Content(
                             schema = @Schema(implementation = AddBrandRequest.class),
-                            examples = @ExampleObject(value = "{ \"name\": \"Adidaz\", \"description\": \"Colombian Shoes\" }")
+                            examples = @ExampleObject(value = "{ \"name\": \"Zodiac\", \"description\": \"Colombian Shoes\" }")
                     )
             ),
             responses = {
