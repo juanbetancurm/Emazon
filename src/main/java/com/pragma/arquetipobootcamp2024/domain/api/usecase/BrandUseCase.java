@@ -1,11 +1,9 @@
 package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IBrandEntityMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
-import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IBrandPersistencePort;
 
@@ -14,11 +12,9 @@ import java.util.Optional;
 
 public class BrandUseCase implements IBrandServicePort {
     private final IBrandPersistencePort brandPersistencePort;
-    private final IBrandEntityMapper brandEntityMapper;
 
-    public BrandUseCase(IBrandPersistencePort brandPersistencePort, IBrandEntityMapper brandEntityMapper){
+    public BrandUseCase(IBrandPersistencePort brandPersistencePort){
         this.brandPersistencePort = brandPersistencePort;
-        this.brandEntityMapper = brandEntityMapper;
     }
     @Override
     public BrandModel createBrand (BrandModel brandModel){

@@ -15,11 +15,9 @@ import java.util.Optional;
 
 public class CategoryUseCase implements ICategoryServicePort {
     private final ICategoryPersistencePort categoryPersistencePort;
-    private final ICategoryEntityMapper categoryEntityMapper;
 
     public CategoryUseCase(ICategoryPersistencePort categoryPersistencePort, ICategoryEntityMapper categoryEntityMapper){
         this.categoryPersistencePort = categoryPersistencePort;
-        this.categoryEntityMapper = categoryEntityMapper;
     }
     @Override
     public CategoryModel createCategory (CategoryModel categoryModel){
@@ -49,23 +47,4 @@ public class CategoryUseCase implements ICategoryServicePort {
         return categoryPersistencePort.getCategoriesWithPagination(page, size, sortBy, asc);
     }
 
-    @Override
-    public List<CategoryModel> getAllCategories(){
-        List<CategoryEntity> categories = categoryPersistencePort.getAllCategories();
-
-        return categories.stream()
-                .map(categoryEntityMapper::toModel)
-                .toList();
-    }
-    @Override
-    public CategoryModel getCategoryById(Long id){
-        return categoryPersistencePort.getCategoryById(id);
-    }
-    public CategoryModel updateCategory(CategoryModel categoryModel){
-        return categoryPersistencePort.updateCategory(categoryModel);
-    }
-    @Override
-    public void deleteCategory(Long id){
-        categoryPersistencePort.deleteCategory(id);
-    }
 }
