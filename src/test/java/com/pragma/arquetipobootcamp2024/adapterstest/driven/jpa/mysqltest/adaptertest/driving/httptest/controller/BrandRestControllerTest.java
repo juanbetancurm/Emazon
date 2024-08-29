@@ -141,7 +141,7 @@ class BrandRestControllerTest {
         when(brandResponseMapper.toBrandResponseList(any(List.class))).thenReturn(brandResponses);
 
         // Act & Assert
-        mockMvc.perform(get("/brand/brandspages")
+        mockMvc.perform(get("/brand/brandspage")
                         .param("page", "0")
                         .param("size", "10")
                         .param("sortBy", "name")
