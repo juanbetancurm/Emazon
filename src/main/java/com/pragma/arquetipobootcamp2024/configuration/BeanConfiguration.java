@@ -1,38 +1,22 @@
 package com.pragma.arquetipobootcamp2024.configuration;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.BrandAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.CategoryAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.ProductAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.SupplierAdapter;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IBrandEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IProductEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ISupplierEntityMapper;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IBrandRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ICategoryRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IProductRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.ISupplierRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter.*;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.*;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.*;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.BrandResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.CategoryResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IBrandResponseMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryResponseMapper;
-import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
-import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
-import com.pragma.arquetipobootcamp2024.domain.api.IProductServicePort;
-import com.pragma.arquetipobootcamp2024.domain.api.ISupplierServicePort;
-import com.pragma.arquetipobootcamp2024.domain.api.usecase.BrandUseCase;
-import com.pragma.arquetipobootcamp2024.domain.api.usecase.CategoryUseCase;
-import com.pragma.arquetipobootcamp2024.domain.api.usecase.ProductUseCase;
-import com.pragma.arquetipobootcamp2024.domain.api.usecase.SupplierUseCase;
+import com.pragma.arquetipobootcamp2024.domain.api.*;
+import com.pragma.arquetipobootcamp2024.domain.api.usecase.*;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
-import com.pragma.arquetipobootcamp2024.domain.spi.IBrandPersistencePort;
-import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
-import com.pragma.arquetipobootcamp2024.domain.spi.IProductPersistencePort;
-import com.pragma.arquetipobootcamp2024.domain.spi.ISupplierPersistencePort;
+import com.pragma.arquetipobootcamp2024.domain.spi.*;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 
 import java.util.List;
 
@@ -48,6 +32,18 @@ public class BeanConfiguration {
     private final ICategoryEntityMapper categoryEntityMapper;
     private final IBrandRepository brandRepository;
     private final IBrandEntityMapper brandEntityMapper;
+
+
+    @Bean
+    public IArticleServicePort articleServicePort(IArticlePersistencePort articlePersistencePort,
+                                                  ICategoryServicePort categoryServicePort) {
+        // Spring will automatically inject these ports into the ArticleUseCase
+        return new ArticleUseCase(articlePersistencePort, categoryServicePort);
+    }
+
+
+
+
 
     @Bean
     public IProductPersistencePort productPersistencePort() {
@@ -75,7 +71,7 @@ public class BeanConfiguration {
     }
     @Bean
     public ICategoryServicePort categoryServicePort(){
-        return new CategoryUseCase(categoryPersistencePort(), categoryEntityMapper);
+        return new CategoryUseCase(categoryPersistencePort());
     }
 
     @Bean
@@ -103,20 +99,14 @@ public class BeanConfiguration {
         };
     }
 
-
-
-
-
-
-
-
-
     @Bean
     public IBrandPersistencePort brandPersistencePort(){
+
         return new BrandAdapter(brandRepository, brandEntityMapper);
     }
     @Bean
     public IBrandServicePort brandServicePort(){
+
         return new BrandUseCase(brandPersistencePort());
     }
 

@@ -2,7 +2,7 @@ package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 
 import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
-import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
+import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IBrandPersistencePort;
@@ -33,13 +33,13 @@ public class BrandUseCase implements IBrandServicePort {
     public List<BrandModel> getBrandsWithPagination(int page, int size, String sortBy, boolean asc) {
 
         if (page < 0) {
-            throw new InvalidPageParameterException("Page number cannot be negative.");
+            throw new InvalidParameterException("Page number cannot be negative.");
         }
         if (size <= 0) {
-            throw new InvalidPageParameterException("Page size must be greater than zero.");
+            throw new InvalidParameterException("Page size must be greater than zero.");
         }
         if (sortBy == null || sortBy.trim().isEmpty()) {
-            throw new InvalidPageParameterException("SortBy field must not be null or empty.");
+            throw new InvalidParameterException("SortBy field must not be null or empty.");
         }
         return brandPersistencePort.getBrandsWithPagination(page, size, sortBy, asc);
     }

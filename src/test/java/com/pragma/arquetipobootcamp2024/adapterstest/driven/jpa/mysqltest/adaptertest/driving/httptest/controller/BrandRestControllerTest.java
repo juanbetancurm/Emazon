@@ -3,17 +3,13 @@ package com.pragma.arquetipobootcamp2024.adapterstest.driven.jpa.mysqltest.adapt
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.controller.BrandRestController;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddBrandRequest;
-import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddBrandRequest;
-import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddBrandRequest;
-import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.BrandResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.BrandResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IBrandRequestMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IBrandResponseMapper;
 import com.pragma.arquetipobootcamp2024.configuration.exceptionhandler.ControllerAdvisor;
 import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
-import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
+import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
-import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,7 +150,7 @@ class BrandRestControllerTest {
     @Test
     void testGetBrandsWithPagination_InvalidPageParameter() throws Exception {
         when(brandServicePort.getBrandsWithPagination(-1, 5, "name", true))
-                .thenThrow(new InvalidPageParameterException("Page number cannot be negative."));
+                .thenThrow(new InvalidParameterException("Page number cannot be negative."));
 
         // Perform the request
         mockMvc.perform(get("/brand/brandspage?page=-1&size=5"))
@@ -166,7 +162,7 @@ class BrandRestControllerTest {
     @Test
     void testGetBrandsWithPagination_InvalidSizeParameter() throws Exception {
         when(brandServicePort.getBrandsWithPagination(0, 0, "name", true))
-                .thenThrow(new InvalidPageParameterException("Page size must be greater than zero"));
+                .thenThrow(new InvalidParameterException("Page size must be greater than zero"));
 
         String invalidSize = "0";
         String errorMessage = "Page size must be greater than zero";

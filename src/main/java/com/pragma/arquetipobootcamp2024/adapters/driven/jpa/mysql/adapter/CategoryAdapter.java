@@ -55,11 +55,11 @@ public class CategoryAdapter implements ICategoryPersistencePort {
         return categoryEntityMapper.toModel(categoryEntity);
     }
     @Override
-    public CategoryModel getCategoryById(Long id) {
-        return categoryRepository.findById(id)
-                .map(categoryEntityMapper::toModel)
-                .orElseThrow(()-> new  RuntimeException("Category not found"));
+    public Optional<CategoryModel> getCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .map(categoryEntityMapper::toModel);
     }
+
     @Override
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);

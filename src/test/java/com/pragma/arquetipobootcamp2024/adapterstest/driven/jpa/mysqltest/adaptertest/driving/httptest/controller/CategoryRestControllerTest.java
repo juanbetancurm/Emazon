@@ -8,7 +8,7 @@ import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryRe
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.ICategoryResponseMapper;
 import com.pragma.arquetipobootcamp2024.configuration.exceptionhandler.ControllerAdvisor;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
-import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
+import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 
@@ -155,7 +155,7 @@ class CategoryRestControllerTest {
     @Test
     void testGetCategoriesWithPagination_InvalidPageParameter() throws Exception {
         when(categoryServicePort.getCategoriesWithPagination(-1, 5, "name", true))
-                .thenThrow(new InvalidPageParameterException("Page number cannot be negative."));
+                .thenThrow(new InvalidParameterException("Page number cannot be negative."));
 
         // Perform the request
         mockMvc.perform(get("/category/categoriespage?page=-1&size=5"))
@@ -167,7 +167,7 @@ class CategoryRestControllerTest {
     @Test
     void testGetCategoriesWithPagination_InvalidSizeParameter() throws Exception {
         when(categoryServicePort.getCategoriesWithPagination(0, 0, "name", true))
-                .thenThrow(new InvalidPageParameterException("Page size must be greater than zero"));
+                .thenThrow(new InvalidParameterException("Page size must be greater than zero"));
 
         String invalidSize = "0";
         String errorMessage = "Page size must be greater than zero";

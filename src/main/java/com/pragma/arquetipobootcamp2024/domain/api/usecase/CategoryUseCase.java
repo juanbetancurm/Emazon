@@ -1,10 +1,10 @@
 package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.CategoryEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
-import com.pragma.arquetipobootcamp2024.domain.exception.InvalidPageParameterException;
+import com.pragma.arquetipobootcamp2024.domain.exception.CategoryNotFoundException;
+import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.ICategoryPersistencePort;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CategoryUseCase implements ICategoryServicePort {
     private final ICategoryPersistencePort categoryPersistencePort;
 
-    public CategoryUseCase(ICategoryPersistencePort categoryPersistencePort, ICategoryEntityMapper categoryEntityMapper){
+    public CategoryUseCase(ICategoryPersistencePort categoryPersistencePort){
         this.categoryPersistencePort = categoryPersistencePort;
     }
     @Override
@@ -36,15 +36,21 @@ public class CategoryUseCase implements ICategoryServicePort {
     public List<CategoryModel> getCategoriesWithPagination(int page, int size, String sortBy, boolean asc) {
 
         if (page < 0) {
-            throw new InvalidPageParameterException("Page number cannot be negative.");
+            throw new InvalidParameterException("Page number cannot be negative.");
         }
         if (size <= 0) {
-            throw new InvalidPageParameterException("Page size must be greater than zero.");
+            throw new InvalidParameterException("Page size must be greater than zero.");
         }
         if (sortBy == null || sortBy.trim().isEmpty()) {
-            throw new InvalidPageParameterException("SortBy field must not be null or empty.");
+            throw new InvalidParameterException("SortBy field must not be null or empty.");
         }
         return categoryPersistencePort.getCategoriesWithPagination(page, size, sortBy, asc);
+    }
+
+    @Override
+    public CategoryModel getCategoryById(Long categoryId) {
+        return categoryPersistencePort.getCategoryById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category with ID " + categoryId + " not found."));
     }
 
 }

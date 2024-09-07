@@ -28,6 +28,8 @@ public class CategoryModel {
         this.description = description.trim();
     }
 
+
+
     public Long getId() {
         return id;
     }

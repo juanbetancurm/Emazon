@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,5 +31,8 @@ public class CategoryEntity {
         @NotEmpty(message = "Description is required")
         @Size(max = 90, message = "Description must be less than or equal to 90 characters")
         private String description;
+
+        @ManyToMany(fetch = FetchType.EAGER)
+        private Set<ArticleEntity> articles = new HashSet<>();
 
 }

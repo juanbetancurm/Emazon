@@ -1,5 +1,7 @@
 package com.pragma.arquetipobootcamp2024.configuration;
 
+import com.pragma.arquetipobootcamp2024.domain.exception.DuplicateCategoryException;
+
 public class Constants {
     private Constants(){
         throw new IllegalStateException("utility class");
@@ -11,6 +13,10 @@ public class Constants {
     public static final String SUPPLIER_ALREADY_EXISTS_EXCEPTION_MESSAGE = "The supplier you want to create already exists";
     public static final String PRODUCT_ALREADY_EXISTS_EXCEPTION_MESSAGE = "The product you want to create already exists";
     public static final String EMPTY_FIELD_EXCEPTION_MESSAGE = "Field %s can not be empty";
+    public static final String ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "That is an invalid argument";
+    public static final String INVALID_PAGE_PARAMETER_MESSAGE = "Invalid page parameter";
+    public static final String INVALID_CATEGORY_COUNT_MESSAGE = "Articles could have between 1 and 3 categories";
+    public static final String DUPLICATE_CATEGORY_MESSAGE = "The Category %s is repeated";
     public static final String NEGATIVE_NOT_ALLOWED_EXCEPTION_MESSAGE = "Field %s can not receive negative values";
     public static final String SUPPLIER_NOT_FOUND_EXCEPTION_MESSAGE = "The supplier indicated for this product does not exist";
 

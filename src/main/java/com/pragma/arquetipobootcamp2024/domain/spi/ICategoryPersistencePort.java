@@ -12,8 +12,8 @@ public interface ICategoryPersistencePort {
 
     List<CategoryModel> getCategoriesWithPagination(int page, int size, String sortby, boolean asc);
 
+    Optional<CategoryModel> getCategoryById(Long categoryId);
 
-    CategoryModel getCategoryById(Long id);
     List<CategoryEntity> getAllCategories();
     CategoryModel updateCategory(CategoryModel categoryModel);
     void deleteCategory (Long id);

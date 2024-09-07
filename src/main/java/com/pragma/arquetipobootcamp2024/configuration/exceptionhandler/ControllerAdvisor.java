@@ -83,16 +83,30 @@ public class ControllerAdvisor {
     }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        Map<String, String> errorResponse = new LinkedHashMap<>();
+        errorResponse.put(Constants.ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(InvalidPageParameterException.class)
-    public ResponseEntity<Object> handleInvalidPageParameterException(InvalidPageParameterException ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
+    @ExceptionHandler(InvalidParameterException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidPageParameterException(InvalidParameterException ex) {
+        Map<String, Object> errorResponse = new LinkedHashMap<>();
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put(Constants.INVALID_PAGE_PARAMETER_MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(DuplicateCategoryException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateCategoryException(DuplicateCategoryException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put(DUPLICATE_CATEGORY_MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvalidCategoryCountException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCategoryCountException(InvalidCategoryCountException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put(INVALID_CATEGORY_COUNT_MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }
