@@ -35,6 +35,10 @@ public class ArticleUseCase implements IArticleServicePort {
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.size() > 3) {
             throw new InvalidCategoryCountException("Article must have between 1 and 3 categories");
         }
+        Set<Long> uniqueCategoryIds = new HashSet<>(categoryIds);
+        if (uniqueCategoryIds.size() != categoryIds.size()) {
+            throw new IllegalArgumentException("Duplicate categories are not allowed, categories should be different");
+        }
 
         Set<CategoryModel> validCategories = new HashSet<>();
         for (Long categoryId : categoryIds) {

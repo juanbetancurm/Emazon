@@ -1,10 +1,11 @@
 package com.pragma.arquetipobootcamp2024.domain.model;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+
 
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.DuplicateCategoryException;
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidCategoryCountException;
+
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,14 +39,7 @@ public class ArticleModel {
         logger.info("Received categories: {}", categories);
     }
 
-    private boolean hasDuplicateCategories(Set<CategoryModel> categories) {
-        logger.info("hasDuplicateCategories called with categories: {}", categories);
-        if (categories == null) {
-            throw new InvalidParameterException("Categories cannot be null");
-        }
-        return categories.size() != new HashSet<>(categories).size();
-    }
-    public Set<Long> getCategoryIds() {
+   public Set<Long> getCategoryIds() {
         if (categories == null) {
             return Collections.emptySet();
         }
@@ -101,6 +95,10 @@ public class ArticleModel {
     }
 
     public void setQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new InvalidParameterException("Article must have a valid quantity greater than 0");
+        }
+
         this.quantity = quantity;
     }
 
@@ -109,6 +107,9 @@ public class ArticleModel {
     }
 
     public void setPrice(double price) {
+        if (price <= 0) {
+            throw new InvalidParameterException("Article must have a valid price greater than 0");
+        }
         this.price = price;
     }
 
@@ -121,10 +122,14 @@ public class ArticleModel {
         if (categories == null || categories.size() < 1 || categories.size() > 3) {
             throw new InvalidCategoryCountException("Article must have between 1 and 3 categories");
         }
-
-        if (hasDuplicateCategories(categories)) {
-            throw new DuplicateCategoryException("Article cannot have duplicate categories");
+        Set<Long> uniqueCategoryIds = new HashSet<>();
+        for (CategoryModel category : categories) {
+            if (!uniqueCategoryIds.add(category.getId())) {
+                throw new DuplicateCategoryException("Article cannot have duplicate categories");
+            }
         }
+        logger.info("Categories after duplicate check: {}", categories);
+
         this.categories = categories;
     }
 }
