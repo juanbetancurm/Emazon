@@ -22,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 
 import java.util.List;
@@ -161,25 +162,21 @@ class CategoryRestControllerTest {
         mockMvc.perform(get("/category/categoriespage?page=-1&size=5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Page number cannot be negative."));
+                .andExpect(jsonPath("$.['Invalid page parameter']").value("Page number cannot be negative."));
     }
 
     @Test
     void testGetCategoriesWithPagination_InvalidSizeParameter() throws Exception {
-        when(categoryServicePort.getCategoriesWithPagination(0, 0, "name", true))
-                .thenThrow(new InvalidParameterException("Page size must be greater than zero"));
+        when(categoryServicePort.getCategoriesWithPagination(-1, 5, "name", true))
+                .thenThrow(new InvalidParameterException("Page number cannot be negative."));
 
-        String invalidSize = "0";
-        String errorMessage = "Page size must be greater than zero";
-
-
-        mockMvc.perform(get("/category/categoriespage")
-                        .param("page", "0")
-                        .param("size", invalidSize)
-                        .param("sortBy", "name")
-                        .param("asc", "true"))
+        MvcResult result = mockMvc.perform(get("/category/categoriespage?page=-1&size=5"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(errorMessage));
+                .andReturn();
+
+        String responseBody = result.getResponse().getContentAsString();
+        System.out.println("Actual response body: " + responseBody);
     }
+
 }

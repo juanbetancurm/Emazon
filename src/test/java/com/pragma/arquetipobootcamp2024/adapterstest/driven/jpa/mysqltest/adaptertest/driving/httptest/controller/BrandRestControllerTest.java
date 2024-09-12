@@ -12,20 +12,22 @@ import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterExcepti
 import com.pragma.arquetipobootcamp2024.domain.exception.NameAlreadyExistsExceptionD;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -154,28 +156,39 @@ class BrandRestControllerTest {
 
         // Perform the request
         mockMvc.perform(get("/brand/brandspage?page=-1&size=5"))
-                .andDo(print())
+                .andDo(print()) // Print the actual response for debugging
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Page number cannot be negative."));
+                .andExpect(jsonPath("$.['Invalid page parameter']").value("Page number cannot be negative."));
     }
 
     @Test
     void testGetBrandsWithPagination_InvalidSizeParameter() throws Exception {
-        when(brandServicePort.getBrandsWithPagination(0, 0, "name", true))
-                .thenThrow(new InvalidParameterException("Page size must be greater than zero"));
-
         String invalidSize = "0";
         String errorMessage = "Page size must be greater than zero";
 
+        // Mocking service behavior
+        when(brandServicePort.getBrandsWithPagination(0, 0, "name", true))
+                .thenThrow(new InvalidParameterException(errorMessage));
 
-        mockMvc.perform(get("/brand/brandspage")
+        // Act & Assert
+        MvcResult result = mockMvc.perform(get("/brand/brandspage")
                         .param("page", "0")
                         .param("size", invalidSize)
                         .param("sortBy", "name")
                         .param("asc", "true"))
-                .andDo(print())
+                .andDo(print())  // This will print the response details to the console for easier debugging
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(errorMessage));
+                .andExpect(jsonPath("$.['Invalid page parameter']").value(errorMessage))
+                .andReturn();
+
+        // Log the actual response body
+        String actualResponse = result.getResponse().getContentAsString();
+        System.out.println("Actual response: " + actualResponse);
+
+        // Log expected and actual values for debugging
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Expected error message: {}", errorMessage);
+        logger.info("Actual response: {}", actualResponse);
     }
 
 
