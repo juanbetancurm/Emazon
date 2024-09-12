@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +34,7 @@ class CategoryAdapterTest {
     void getCategoryByName_shouldReturnCategoryModel_whenCategoryExists() {
         // Given
         String categoryName = "Electronics";
-        CategoryEntity categoryEntity = new CategoryEntity(1L, categoryName, "Gadgets and devices");
+        CategoryEntity categoryEntity = new CategoryEntity(1L, categoryName, "Gadgets and devices", Collections.emptySet());
         CategoryModel categoryModel = new CategoryModel(1L, categoryName, "Gadgets and devices");
 
         when(categoryRepository.findByName(categoryName)).thenReturn(Optional.of(categoryEntity));
@@ -53,10 +54,10 @@ class CategoryAdapterTest {
     void saveCategory_shouldSaveAndReturnCategoryModel() {
         // Given
         CategoryModel categoryModel = new CategoryModel(null, "Books", "Books and literature");
-        CategoryEntity categoryEntity = new CategoryEntity(null, "Books", "Books and literature");
+        CategoryEntity categoryEntity = new CategoryEntity(null, "Books", "Books and literature", Collections.emptySet());
 
         when(categoryEntityMapper.toEntity(categoryModel)).thenReturn(categoryEntity);
-        when(categoryRepository.save(categoryEntity)).thenReturn(new CategoryEntity(1L, "Books", "Books and literature"));
+        when(categoryRepository.save(categoryEntity)).thenReturn(new CategoryEntity(1L, "Books", "Books and literature", Collections.emptySet()));
         when(categoryEntityMapper.toModel(any(CategoryEntity.class))).thenReturn(new CategoryModel(1L, "Books", "Books and literature"));
 
         // When

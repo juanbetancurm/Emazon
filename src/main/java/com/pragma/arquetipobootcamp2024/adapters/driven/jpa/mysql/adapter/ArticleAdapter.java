@@ -3,18 +3,16 @@ package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.ArticleEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IArticleEntityMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IArticleRepository;
-import com.pragma.arquetipobootcamp2024.adapters.driving.http.controller.ArticleRestController;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IArticlePersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class ArticleAdapter implements IArticlePersistencePort{
-    private static final Logger logger = LoggerFactory.getLogger(ArticleRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ArticleAdapter.class);
     private final IArticleRepository articleRepository;
     private final IArticleEntityMapper articleEntityMapper;
 
@@ -38,8 +36,6 @@ public class ArticleAdapter implements IArticlePersistencePort{
         logger.info("Saved ArticleEntity and returning ArticleModel: {}", savedModel);
 
         return savedModel;
-        // Map ArticleEntity back to ArticleModel and return
-        //return articleEntityMapper.toModel(savedArticle);
     }
 
 }

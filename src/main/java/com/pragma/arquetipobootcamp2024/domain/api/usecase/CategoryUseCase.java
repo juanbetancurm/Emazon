@@ -1,6 +1,5 @@
 package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.ICategoryEntityMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.CategoryNotFoundException;

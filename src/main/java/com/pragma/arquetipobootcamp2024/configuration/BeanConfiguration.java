@@ -13,7 +13,6 @@ import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.*;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

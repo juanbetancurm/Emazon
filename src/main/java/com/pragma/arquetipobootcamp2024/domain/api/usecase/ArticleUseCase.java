@@ -56,8 +56,7 @@ public class ArticleUseCase implements IArticleServicePort {
 
         ArticleModel savedArticle = articlePersistencePort.save(articleModel);
         logger.info("ArticleModel saved: {}", savedArticle);
-        // Save the article
-        //return articlePersistencePort.save(articleModel);
+
         return savedArticle;
     }
 }

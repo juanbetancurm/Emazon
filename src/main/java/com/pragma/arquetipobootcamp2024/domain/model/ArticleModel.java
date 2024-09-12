@@ -119,7 +119,7 @@ public class ArticleModel {
 
     public void setCategories(Set<CategoryModel> categories) {
 
-        if (categories == null || categories.size() < 1 || categories.size() > 3) {
+        if (categories == null || categories.isEmpty() || categories.size() > 3) {
             throw new InvalidCategoryCountException("Article must have between 1 and 3 categories");
         }
         Set<Long> uniqueCategoryIds = new HashSet<>();

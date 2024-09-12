@@ -1,12 +1,13 @@
 package com.pragma.arquetipobootcamp2024.adapters.driving.http.controller;
 
-import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.request.AddArticleRequest;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response.ArticleResponse;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IArticleRequestMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IArticleResponseMapper;
 import com.pragma.arquetipobootcamp2024.domain.api.IArticleServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
+import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class ArticleRestController {
 
         logger.info("Received AddArticleRequest: {}", addArticleRequest);
         if (addArticleRequest.getCategoryIds() == null) {
-            throw new NoDataFoundException();
+            throw new BlankFieldException("Categories Cannot Be Null");
         }
         logger.info("Category IDs: {}", addArticleRequest.getCategoryIds());
         ArticleModel articleModel = articleRequestMapper.toModel(addArticleRequest);

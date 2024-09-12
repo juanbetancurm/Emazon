@@ -12,8 +12,6 @@ import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 public class CategoryRestController {
-    private static final Logger logger = LoggerFactory.getLogger(CategoryRestController.class);
+
     private final ICategoryServicePort categoryServicePort;
 
     private final ICategoryResponseMapper categoryResponseMapper;
