@@ -35,9 +35,10 @@ public class BeanConfiguration {
 
     @Bean
     public IArticleServicePort articleServicePort(IArticlePersistencePort articlePersistencePort,
-                                                  ICategoryServicePort categoryServicePort) {
-        // Spring will automatically inject these ports into the ArticleUseCase
-        return new ArticleUseCase(articlePersistencePort, categoryServicePort);
+                                                  ICategoryServicePort categoryServicePort,
+                                                  IBrandServicePort brandServicePort) {
+
+        return new ArticleUseCase(articlePersistencePort, categoryServicePort, brandServicePort);
     }
 
 

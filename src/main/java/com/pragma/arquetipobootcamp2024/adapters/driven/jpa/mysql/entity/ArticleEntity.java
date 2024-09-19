@@ -45,4 +45,9 @@ public class ArticleEntity {
     )
     private Set<CategoryEntity> categories = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private BrandEntity brand;
+
+
 }

@@ -3,6 +3,7 @@ package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.BrandEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IBrandEntityMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IBrandRepository;
+import com.pragma.arquetipobootcamp2024.domain.exception.ResourceNotFoundException;
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IBrandPersistencePort;
 import org.springframework.data.domain.PageRequest;
@@ -41,5 +42,12 @@ public class BrandAdapter implements IBrandPersistencePort {
                 .map(brandEntityMapper::toModel)
                 .toList();
 
+    }
+
+    @Override
+    public BrandModel getBrandById(Long brandId) {
+        BrandEntity brandEntity = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + brandId));
+        return brandEntityMapper.toModel(brandEntity);
     }
 }

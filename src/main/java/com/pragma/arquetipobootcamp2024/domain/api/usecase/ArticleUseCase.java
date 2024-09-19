@@ -2,10 +2,13 @@ package com.pragma.arquetipobootcamp2024.domain.api.usecase;
 
 
 import com.pragma.arquetipobootcamp2024.domain.api.IArticleServicePort;
+import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
+import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidCategoryCountException;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 
+import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IArticlePersistencePort;
 
@@ -19,15 +22,28 @@ public class ArticleUseCase implements IArticleServicePort {
     private static final Logger logger = LoggerFactory.getLogger(ArticleUseCase.class);
     private final IArticlePersistencePort articlePersistencePort;
     private final ICategoryServicePort categoryServicePort;
+    private final IBrandServicePort brandServicePort;
 
-    public ArticleUseCase(IArticlePersistencePort articlePersistencePort, ICategoryServicePort categoryServicePort) {
+    public ArticleUseCase(IArticlePersistencePort articlePersistencePort, ICategoryServicePort categoryServicePort, IBrandServicePort brandServicePort) {
         this.articlePersistencePort = articlePersistencePort;
         this.categoryServicePort = categoryServicePort;
+        this.brandServicePort = brandServicePort;
     }
 
     @Override
     public ArticleModel createNewArticle(ArticleModel articleModel) {
-        logger.info("Received ArticleModel in ArticleUseCase: {}", articleModel);
+        logger.info("Received ArticleModel in ArticleUseCase1: {}", articleModel);
+        Long brandId = articleModel.getBrandId();
+        logger.info("Received Brand in ArticleUseCase: {}", articleModel.getBrandId());
+        if (brandId == null) {
+            throw new BlankFieldException("Brand ID Cannot Be Null");
+        }
+
+        BrandModel brandModel = brandServicePort.getBrandById(brandId);
+        if (brandModel == null) {
+            throw new IllegalArgumentException("Invalid brand ID: " + brandId);
+        }
+        articleModel.setBrand(brandModel); // Set the brand model
 
         Set<Long> categoryIds = articleModel.getCategoryIds();
         logger.info("Extracted Category IDs: {}", categoryIds);

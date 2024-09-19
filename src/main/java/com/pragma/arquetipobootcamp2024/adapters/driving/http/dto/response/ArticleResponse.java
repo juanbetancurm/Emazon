@@ -1,5 +1,6 @@
 package com.pragma.arquetipobootcamp2024.adapters.driving.http.dto.response;
 
+import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,7 @@ public class ArticleResponse {
     private int quantity;
     private double price;
     private Set<CategoryResponse> categories;
+    private Long brandId;
+    private String brandName;
 }
 

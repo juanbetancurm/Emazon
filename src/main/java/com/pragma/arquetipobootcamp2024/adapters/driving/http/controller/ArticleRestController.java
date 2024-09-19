@@ -7,9 +7,11 @@ import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IArticleReq
 import com.pragma.arquetipobootcamp2024.adapters.driving.http.mapper.IArticleResponseMapper;
 import com.pragma.arquetipobootcamp2024.configuration.exceptionhandler.ErrorResponse;
 import com.pragma.arquetipobootcamp2024.domain.api.IArticleServicePort;
+import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
+import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
 import com.pragma.arquetipobootcamp2024.domain.model.CategoryModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,15 +40,18 @@ public class ArticleRestController {
     private final IArticleRequestMapper articleRequestMapper;
     private final IArticleResponseMapper articleResponseMapper;
     private final ICategoryServicePort categoryServicePort;
+    private final IBrandServicePort brandServicePort;
 
     public ArticleRestController(IArticleServicePort articleServicePort,
                                  IArticleRequestMapper articleRequestMapper,
                                  IArticleResponseMapper articleResponseMapper,
-                                 ICategoryServicePort categoryServicePort) {
+                                 ICategoryServicePort categoryServicePort,
+                                 IBrandServicePort brandServicePort) {
         this.articleServicePort = articleServicePort;
         this.articleRequestMapper = articleRequestMapper;
         this.articleResponseMapper = articleResponseMapper;
         this.categoryServicePort = categoryServicePort;
+        this.brandServicePort = brandServicePort;
     }
 
     @PostMapping
@@ -58,7 +63,7 @@ public class ArticleRestController {
                     description = "Article data to be created",
                     content = @Content(
                             schema = @Schema(implementation = AddArticleRequest.class),
-                            examples = @ExampleObject(value = "{ \"name\": \"Test Article\", \"description\": \"Test Description\", \"quantity\": 10, \"price\": 100.0, \"categoryIds\": [1, 2] }")
+                            examples = @ExampleObject(value = "{ \"name\": \"Test Article\", \"description\": \"Test Description\", \"quantity\": 10, \"price\": 100.0, \"categoryIds\": [1, 2], \"brandId\": 1 }")
                     )
             ),
             responses = {
@@ -96,6 +101,9 @@ public class ArticleRestController {
         if (addArticleRequest.getCategoryIds() == null) {
             throw new BlankFieldException("Categories Cannot Be Null");
         }
+        if (addArticleRequest.getBrandId() == null) {
+            throw new BlankFieldException("Brand ID Cannot Be Null");
+        }
         logger.info("Category IDs: {}", addArticleRequest.getCategoryIds());
         ArticleModel articleModel = articleRequestMapper.toModel(addArticleRequest);
 
@@ -104,13 +112,18 @@ public class ArticleRestController {
         Set<CategoryModel> categoryModels = addArticleRequest.getCategoryIds().stream()
                 .map(categoryServicePort::getCategoryById)
                 .collect(Collectors.toSet());
-
-
         articleModel.setCategories(categoryModels);
+
+        logger.info("getBrandById: {}", addArticleRequest.getBrandId());
+        BrandModel brandModel = brandServicePort.getBrandById(addArticleRequest.getBrandId());
+        logger.info("BrandModel: {}", brandModel);
+        articleModel.setBrand(brandModel);
+        logger.info("setBrand: {}", articleModel);
 
 
         ArticleModel createdArticle = articleServicePort.createNewArticle(articleModel);
-        logger.info("Received articleModel: {}", createdArticle);
+        logger.info("ArticleModel after saving: {}", createdArticle);
+        logger.info("ArticleModel brandId after saving: {}", createdArticle.getBrand().getId());
 
         ArticleResponse response = articleResponseMapper.toResponse(createdArticle);
         logger.info("Received articleModel: {}", response);

@@ -23,11 +23,25 @@ public class ArticleModel {
     private int quantity;
     private double price;
     private Set<CategoryModel> categories = new HashSet<>();
+    private BrandModel brand;
+    private Long brandId;
+    private String brandName;
+
+    public String getBrandName() {
+        if (brand != null) {
+            return brand.getName();
+        }
+        return null;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public ArticleModel() {
     }
 
-    public ArticleModel(Long id, String name, String description, int quantity, double price, Set<CategoryModel> categories) {
+    public ArticleModel(Long id, String name, String description, int quantity, double price, Set<CategoryModel> categories, Long brandId) {
 
         logger.info("Received categories: {}", categories);
         this.id = id;
@@ -36,6 +50,8 @@ public class ArticleModel {
         this.quantity = quantity;
         this.price = price;
         this.categories = categories;
+        this.brandId = brandId;
+        logger.info("Received brand: {}", brandId);
         logger.info("Received categories: {}", categories);
     }
 
@@ -56,6 +72,8 @@ public class ArticleModel {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", categories=" + categories +
+                ", brand=" + brand +
+                ", brandName=" + brandName +
                 '}';
     }
 
@@ -131,5 +149,22 @@ public class ArticleModel {
         logger.info("Categories after duplicate check: {}", categories);
 
         this.categories = categories;
+    }
+
+    public BrandModel getBrand() {
+        return brand;
+    }
+    public void setBrand(BrandModel brand) {
+        this.brand = brand;
+    }
+    public Long getBrandId() {
+        if (brand != null) {
+            return brand.getId();
+        }
+        return null;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
     }
 }

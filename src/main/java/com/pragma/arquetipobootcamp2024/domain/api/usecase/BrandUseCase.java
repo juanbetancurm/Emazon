@@ -43,4 +43,9 @@ public class BrandUseCase implements IBrandServicePort {
         }
         return brandPersistencePort.getBrandsWithPagination(page, size, sortBy, asc);
     }
+
+
+    public BrandModel getBrandById(Long brandId) {
+        return brandPersistencePort.getBrandById(brandId);
+    }
 }

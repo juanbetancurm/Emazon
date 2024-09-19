@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Data
@@ -32,6 +29,10 @@ public class AddArticleRequest {
     //@Size(min = 1, max = 3, message = "Article must have between 1 and 3 categories")
     @JsonProperty("categoryIds")
     private Set<Long> categoryIds;
+
+    @NotNull(message = "Brand ID is required")
+    @JsonProperty("brandId")
+    private Long brandId;
 
 }
 

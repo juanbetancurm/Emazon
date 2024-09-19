@@ -3,6 +3,7 @@ package com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.adapter;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.entity.ArticleEntity;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.mapper.IArticleEntityMapper;
 import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IArticleRepository;
+import com.pragma.arquetipobootcamp2024.adapters.driven.jpa.mysql.repository.IBrandRepository;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IArticlePersistencePort;
 import org.slf4j.Logger;
@@ -15,10 +16,12 @@ public class ArticleAdapter implements IArticlePersistencePort{
     private static final Logger logger = LoggerFactory.getLogger(ArticleAdapter.class);
     private final IArticleRepository articleRepository;
     private final IArticleEntityMapper articleEntityMapper;
+    private final IBrandRepository brandRepository;
 
-    public ArticleAdapter(IArticleRepository articleRepository, IArticleEntityMapper articleEntityMapper) {
+    public ArticleAdapter(IArticleRepository articleRepository, IArticleEntityMapper articleEntityMapper, IBrandRepository brandRepository) {
         this.articleRepository = articleRepository;
         this.articleEntityMapper = articleEntityMapper;
+        this.brandRepository = brandRepository;
     }
 
     @Override
