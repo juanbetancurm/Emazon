@@ -24,11 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,7 +52,7 @@ public class ArticleRestController {
         this.brandServicePort = brandServicePort;
     }
 
-    @PostMapping
+    @PostMapping("/newarticle")
 
     @Operation(
             summary = "Create a new Article",
@@ -129,6 +127,24 @@ public class ArticleRestController {
         logger.info("Received articleModel: {}", response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping("/articles")
+    public ResponseEntity<List<ArticleResponse>> getArticlesWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        List<ArticleModel> articles = articleServicePort.listArticles(sortBy, sortOrder, page, size);
+        List<ArticleResponse> articleResponses = articleResponseMapper.toArticleResponseList(articles);
+
+        return ResponseEntity.ok(articleResponses);
+    }
+
+
+
+
+
 
 }
 

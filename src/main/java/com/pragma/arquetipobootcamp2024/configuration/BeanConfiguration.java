@@ -23,10 +23,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
-    private final IProductRepository productRepository;
-    private final IProductEntityMapper productEntityMapper;
-    private final ISupplierRepository supplierRepository;
-    private final ISupplierEntityMapper supplierEntityMapper;
+
     private final ICategoryRepository categoryRepository;
     private final ICategoryEntityMapper categoryEntityMapper;
     private final IBrandRepository brandRepository;
@@ -40,30 +37,6 @@ public class BeanConfiguration {
 
         return new ArticleUseCase(articlePersistencePort, categoryServicePort, brandServicePort);
     }
-
-
-
-
-
-    @Bean
-    public IProductPersistencePort productPersistencePort() {
-        return new ProductAdapter(productRepository, productEntityMapper, supplierRepository, supplierEntityMapper);
-    }
-    @Bean
-    public IProductServicePort productServicePort() {
-
-        return new ProductUseCase(productPersistencePort());
-    }
-    @Bean
-    public ISupplierPersistencePort supplierPersistencePort() {
-        return new SupplierAdapter(supplierRepository, supplierEntityMapper);
-    }
-    @Bean
-    public ISupplierServicePort supplierServicePort() {
-
-        return new SupplierUseCase(supplierPersistencePort());
-    }
-
 
     @Bean
     public ICategoryPersistencePort categoryPersistencePort(){

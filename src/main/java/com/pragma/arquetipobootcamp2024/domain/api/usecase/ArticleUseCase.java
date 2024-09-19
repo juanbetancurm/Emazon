@@ -6,6 +6,7 @@ import com.pragma.arquetipobootcamp2024.domain.api.IBrandServicePort;
 import com.pragma.arquetipobootcamp2024.domain.api.ICategoryServicePort;
 import com.pragma.arquetipobootcamp2024.domain.exception.BlankFieldException;
 import com.pragma.arquetipobootcamp2024.domain.exception.InvalidCategoryCountException;
+import com.pragma.arquetipobootcamp2024.domain.exception.InvalidParameterException;
 import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 
 import com.pragma.arquetipobootcamp2024.domain.model.BrandModel;
@@ -14,9 +15,14 @@ import com.pragma.arquetipobootcamp2024.domain.spi.IArticlePersistencePort;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public class ArticleUseCase implements IArticleServicePort {
     private static final Logger logger = LoggerFactory.getLogger(ArticleUseCase.class);
@@ -74,6 +80,21 @@ public class ArticleUseCase implements IArticleServicePort {
         logger.info("ArticleModel saved: {}", savedArticle);
 
         return savedArticle;
+    }
+
+    public List<ArticleModel> listArticles(String sortBy, String sortOrder, int page, int size) {
+
+        if (page < 0) {
+            throw new InvalidParameterException("Page number cannot be negative.");
+        }
+        if (size <= 0) {
+            throw new InvalidParameterException("Page size must be greater than zero.");
+        }
+        if (sortBy == null || sortBy.trim().isEmpty()) {
+            throw new InvalidParameterException("SortBy field must not be null or empty.");
+        }
+        return articlePersistencePort.listArticles(sortBy, sortOrder, page, size);
+
     }
 }
 

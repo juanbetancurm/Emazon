@@ -8,7 +8,12 @@ import com.pragma.arquetipobootcamp2024.domain.model.ArticleModel;
 import com.pragma.arquetipobootcamp2024.domain.spi.IArticlePersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -40,5 +45,17 @@ public class ArticleAdapter implements IArticlePersistencePort{
 
         return savedModel;
     }
+
+    @Override
+    public List<ArticleModel> listArticles(String sortBy, String sortOrder, int page, int size) {
+        Sort sort = sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return articleRepository.findAll(pageable)
+                .stream()
+                .map(articleEntityMapper::toModel)
+                .toList();
+    }
+
 
 }
